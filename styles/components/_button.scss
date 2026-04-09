@@ -1,0 +1,31 @@
+@use "sass:map";
+@use "../abstracts/colors" as *;
+@use "../abstracts/mixin" as *;
+.btn {
+    height: 63px;
+    min-width: 312px;
+    width: fit-content;
+    border-radius: 44px;
+    border: none;
+    @include flex-center;
+    font-size: 24px;
+    cursor: pointer;
+    &:hover {
+        filter: brightness(1.1);
+    }
+}
+
+.btn-fixed {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    height: 63px;
+    min-width: 70px;
+    border-radius: 10px 0 0 10px;
+    @include flex-center;
+    &:hover {
+        min-width: 80px;
+        transition: transform 0.5s ease;
+    }
+}

@@ -1,0 +1,41 @@
+@use "sass:map";
+@use "../abstracts/colors" as *;
+@use "../abstracts/mixin" as *;
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 55px;
+  padding: 0.1rem 0.5rem !important;
+  font-size: 17px !important;
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: map.get($colors, 1);
+  background-clip: padding-box;
+  border: 1px solid map.get($colors, 7) !important;
+  outline: none;
+  border-radius: 10px;
+  &:focus {
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 0 3px rgb(0 126 255 / 10%) !important;
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+  }
+}
+
+.max-width-1518-px {
+  max-width: 1518px !important;
+}
+ 
+.max-width-1150-px {
+  max-width: 1150px !important;
+}
+.max-width-1480-px {
+  max-width: 1480px !important;
+}
+.max-width-1140-px {
+  max-width: 1140px !important;
+}
+.max-width-1082-px {
+  max-width: 1082px !important;
+}

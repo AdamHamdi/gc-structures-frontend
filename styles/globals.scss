@@ -1,0 +1,12 @@
+@use "abstracts/colors" as *;
+@use "abstracts/mixin" as *;
+@use "abstracts/responsive";
+@use "abstracts/columns";
+@use "abstracts/base";
+@use "components/button";
+@use "components/input";
+@use "tailwind";
+@import "tailwindcss";
+//css
+@import "../public/poppins/stylesheet";
+@import "primeicons/primeicons.css";

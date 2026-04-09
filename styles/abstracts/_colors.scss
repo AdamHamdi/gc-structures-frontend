@@ -1,0 +1,21 @@
+$colors: (
+  1: #fff,
+  2: #28a951,
+  3: #f0eeee,
+  4: #000,
+  5: #b7f9cc,
+  6: #B7F9CC,
+  7: #BEBEBE,
+  8: rgba(0, 0, 0, .64),
+);
+
+@each $i, $value in $colors {
+  .clr-#{$i} {
+    color: $value !important;
+  }
+}
+@each $i, $value in $colors {
+  .bg-#{$i} {
+    background-color: $value !important;
+  }
+}

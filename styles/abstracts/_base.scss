@@ -1,0 +1,443 @@
+@use "sass:map";
+@use "sass:math";
+@use "colors" as *;
+@use "mixin" as *;
+* {
+  box-sizing: border-box;
+}
+
+.px-2 {
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+.max-width-1400-px {
+    max-width: 1400px !important;
+}
+.header {
+  background-color: map.get($colors, 1);
+  height: 104px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  // Menu de navigation
+  .nav-list {
+    display: flex; // ✅ Visible par défaut sur desktop
+    // Sur tablette/mobile
+    @media (max-width: 1024px) {
+      position: absolute;
+      top: 104px;
+      left: 0;
+      width: 100%;
+      background: map.get($colors, 1);
+      flex-direction: column;
+      align-items: flex-start;
+      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.4);
+      display: none; // ✅ Caché par défaut sur mobile
+      // Quand le menu est ouvert (classe .open ajoutée)
+      &.open {
+        display: flex; // ✅ Affiché quand on clique sur le hamburger
+      }
+      .nav-item {
+        display: block;
+        width: 100%;
+        border-top: 1px solid map.get($colors, 7);
+        &:hover,
+        &.active {
+          background-color: map.get($colors, 2) !important;
+          color: map.get($colors, 1) !important;
+        }
+      }
+    }
+    .nav-item {
+      font-size: 20px;
+      font-weight: 500;
+      color: map.get($colors, 4);
+      text-decoration: none;
+      white-space: nowrap;
+      &:hover,
+      &.active {
+        color: map.get($colors, 2);
+      }
+    }
+  }
+  // Bouton hamburger
+  .btn-bars {
+    display: none; // ✅ Caché par défaut sur desktop
+    flex-direction: column;
+    gap: 5px;
+    // Visible uniquement sur tablette/mobile
+    @media (max-width: 1024px) {
+      display: flex;
+    }
+    span {
+      border: 1px solid map.get($colors, 2);
+      display: block;
+      height: 6px;
+      width: 30px;
+      background-color: map.get($colors, 2);
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+  }
+}
+
+.accueil {
+  @include flex-center;
+  background-image: url("/images/accu.webp");
+  background-size: cover;
+  height: calc(100vh - 104px);
+  flex-direction: column;
+}
+
+.why-choose-us {
+  background-image: url("/images/why-choose-us.webp");
+  background-size: cover;
+  min-height: 789px;
+  padding: 87px 0;
+}
+
+.footer {
+  background-image: url("/images/footer.webp");
+  background-size: cover;
+  min-height: 243px;
+  padding: 50px 0 20px;
+}
+
+//global styles
+.flex-center {
+  @include flex-center;
+}
+
+.zoom-in {
+  overflow: hidden;
+  .image {
+    transition: transform 0.5s ease;
+  }
+  &:hover .image {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+}
+
+.fit-cover {
+  object-fit: cover;
+}
+
+.w-fit {
+  width: fit-content;
+}
+
+.z-in {
+  transition: transform 0.5s ease;
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+/*********************************** Refferences */
+.refferences {
+  background-image: url("/images/footer.webp");
+  background-size: cover;
+  min-height: 243px;
+}
+.realisations {
+  padding: 150px 0 30px;
+}
+
+.overlay-reas {
+  background-color: map.get($colors, 8);
+  border-radius: 15px;
+  padding: 15px 35px;
+  position: absolute;
+  bottom: 50px;
+  width: 90%;
+}
+.bg-img {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 574px;
+  border-radius: 25px;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(1.02);
+    transition: transform 0.5s ease;
+  }
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+.bg-img-1 {
+  background-image: url("/images/parc-industriel-batiment-d-usine-entrepot.webp");
+}
+.bg-img-2 {
+  background-image: url("/images/construction-de-batiments-de-nouveaux-gratte-ciel.webp");
+}
+.bg-img-3 {
+  background-image: url("/images/batiment-en-beton-symetrique.webp");
+}
+.bg-img-4 {
+  background-image: url("/images/chantier-de-construction.webp");
+}
+.bg-img-5 {
+  background-image: url("/images/silo-agricole.webp");
+}
+.bg-img-6 {
+  background-image: url("/images/site-de-construction-au-coucher-du-soleil.webp");
+}
+.bg-img-7 {
+  background-image: url("/images/vue-du-chantier-de-construction-moderne.webp");
+}
+.bg-img-8 {
+  background-image: url("/images/octobre-2018-construction-de-batiments-de-gratte-ciel-a-dubai.webp");
+}
+.bg-img-9 {
+  background-image: url("/images/maison-d-habitation-en-cours-de-construction.webp");
+}
+.bg-img-10 {
+  background-image: url("/images/vue-du-batiment-en-construction.webp");
+}
+.bg-img-11 {
+  background-image: url("/images/low-angle-shot-vertical-d-un-batiment-moderne-blanc-touchant-le-ciel-nuageux.webp");
+}
+.bg-img-12 {
+  background-image: url("/images/vertical-d-un-batiment-en-beton-blanc-sous-le-ciel-bleu.webp");
+}
+
+.page-menu {
+  color: white;
+
+  &:hover {
+    color: map.get($colors, 2) !important;
+  }
+
+  &.active {
+    color: map.get($colors, 2) !important;
+  }
+}
+
+.page-menu {
+  height: 100%;
+  width: 100%;
+
+  position: relative;
+  .nav-item {
+    color: white;
+
+    @media (max-width: 1200px) {
+      font-size: 15px;
+    }
+
+    &:hover {
+      color: map.get($colors, 2) !important;
+    }
+
+    &.active {
+      background-color: map.get($colors, 8) !important;
+    }
+  }
+}
+
+.menu-service {
+  position: absolute;
+  min-width: 290px;
+  border-radius: 5px;
+  display: none;
+  transition: max-height 0.5s ease;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+  background: map.get($colors, 1);
+  top: 35px;
+  left: 0;
+
+  .nav-item-serv {
+    padding: 17px !important;
+    border-bottom: 1px solid map.get($colors, 7);
+    font-size: 20px;
+    color: map.get($colors, 4);
+    white-space: nowrap;
+    &:last-child {
+      border-bottom: 0;
+    }
+    &:hover,
+    &.active {
+      background-color: map.get($colors, 2);
+      color: map.get($colors, 1);
+    }
+    &:last-child {
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+    &:first-child {
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      border-top: 1px solid map.get($colors, 7);
+    }
+  }
+}
+
+.expanded-nav:hover > .menu-service {
+  max-height: fit-content;
+  display: flex !important;
+  flex-direction: column;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .expanded-nav:hover > .menu-service {
+    position: relative !important;
+
+    box-shadow: none !important;
+    background: #ffffff !important;
+    top: 0 !important;
+    .nav-item-serv {
+      padding: 14px 0 !important;
+      border-bottom: 1px solid lightgray;
+
+      padding: 20px !important;
+    }
+  }
+}
+
+.nav-paddin {
+  padding: 20px;
+}
+
+.absolute {
+  position: absolute;
+}
+.block {
+  color: white;
+  font-weight: 500;
+  &:hover {
+    color: map.get($colors, 2);
+  }
+}
+
+.logout {
+  color: rgb(202, 5, 5) !important;
+}
+// Cookie Banner
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  padding: 20px;
+
+  .cookie-content {
+    max-width: 1150px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  .cookie-text {
+    flex: 1;
+
+    p {
+      margin: 0 0 5px 0;
+    }
+  }
+
+  .cookie-link {
+    color: map.get($colors, 2);
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .cookie-buttons {
+    display: flex;
+    gap: 10px;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .cookie-btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+
+    &-accept {
+      background-color: map.get($colors, 2);
+      color: white;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    &-refuse {
+      background-color: transparent;
+      border: 1px solid map.get($colors, 4);
+      color: map.get($colors, 4);
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+}
+
+// Legal pages content
+.legal-content {
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 30px 0 15px;
+    color: map.get($colors, 4);
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  p {
+    margin-bottom: 15px;
+  }
+
+  ul {
+    margin: 15px 0;
+    padding-left: 20px;
+
+    li {
+      margin-bottom: 8px;
+    }
+  }
+
+  strong {
+    font-weight: 600;
+  }
+}
+
+.admin {
+  .z-in {
+    &:hover {
+      transform: scale(1) !important;
+    }
+  }
+}

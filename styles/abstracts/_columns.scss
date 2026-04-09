@@ -1,0 +1,41 @@
+@use "sass:map";
+@use 'sass:math';
+$grid-cols: 101;
+@mixin same {
+    flex: 0 0 percentage(1);
+    max-width: percentage(1);
+    box-sizing: border-box;
+}
+
+$xs: ('max-width: 599px');
+$sm: '(min-width: 600px) and (max-width: 959px)';
+$md: '(min-width: 960px) and (max-width: 1279px)';
+$lg: '(min-width: 1280px) and (max-width: 1440px)';
+$xl: '(min-width: 1441px) and (max-width: 1600px)';
+$xxl: '(min-width: 1601px)';
+$lt-sm: '(max-width: 599px)';
+$lt-md: '(max-width: 959px)';
+$lt-lg: '(max-width: 1280px)';
+$lt-xl: '(max-width: 1440px)';
+$gt-sm: '(min-width: 959px)';
+$gt-xs: '(min-width: 599px)';
+$gt-md: '(min-width: 1279px)';
+$gt-lg: '(min-width: 1440px)';
+$breakpoints: ( xs: $xs, sm: $sm, md: $md, lg: $lg, xl: $xl, xxl: $xxl, lt-sm: $lt-sm, lt-md: $lt-md, lt-lg: $lt-lg, lt-xl: $lt-xl, gt-sm: $gt-sm, gt-xs: $gt-xs, gt-md: $gt-md, gt-lg: $gt-lg, );
+@each $key,
+$value in $breakpoints {
+    @media (#{$value}) {
+        @for $i from 1 through 100 {
+            .col-#{$key}-#{$i} {
+                @if ($i==$grid-cols) {
+                    @include same;
+                }
+                @else {
+                    flex: 0 0 math.percentage(math.div($i, $grid-cols - 1)) !important;
+                    max-width: math.percentage(math.div($i, $grid-cols - 1)) !important;
+                    box-sizing: border-box !important;
+                }
+            }
+        }
+    }
+}

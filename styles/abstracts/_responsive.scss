@@ -1,0 +1,30 @@
+@use "sass:map";
+@use "../abstracts/colors" as *;
+@use "../abstracts/mixin" as *;
+@media screen and (max-width: 1024px) {
+  .nav-list {
+    position: absolute;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .btn-bars {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1025px) {
+  .btn-bars {
+    display: flex !important;
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .ans-exp {
+    bottom: -37px !important;
+    left: -26px !important;
+  }
+}
+
+@media (max-width: 768px) {
+}
