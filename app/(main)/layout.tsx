@@ -27,13 +27,11 @@ export default function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Header />
-        {children}
-        <Footer />
-        <CookieBanner />
-      </body>
-    </html>
+    <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <Header />
+      {children}
+      <Footer />
+      <CookieBanner />
+    </div>
   );
 }

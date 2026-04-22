@@ -1,44 +1,63 @@
 "use client";
 
-import { Amplify } from "aws-amplify";
-import { Authenticator } from "@aws-amplify/ui-react";
-import { aws_config } from "@/lib/aws-exports";
-import "@aws-amplify/ui-react/styles.css";
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { getMe } from "@/lib/api";
+import SideBar from "./components/sidebar";
+import Loader from "./components/Loader";
+import { ToastProvider } from "./components/Toast";
+import { Suspense } from "react";
 import "primeicons/primeicons.css";
 import "@/styles/globals.scss";
-import "@/styles/tailwind.css";
-import SideBar from "./components/sidebar";
-import { Suspense } from "react"; 
-Amplify.configure(aws_config, { ssr: false });
-import "./style.scss"
+import "./style.scss";
 
-function Loader() {
-  return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="text-lg text-gray-600">Chargement...</div>
-    </div>
-  );
-}
 
 export default function AdminRootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [checked, setChecked] = useState(false);
+  const isLoginPage = pathname === "/admin/login";
+
+  useEffect(() => {
+    if (isLoginPage) {
+      setChecked(true);
+      return;
+    }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.replace("/admin/login");
+      return;
+    }
+    getMe(token)
+      .then(() => setChecked(true))
+      .catch(() => {
+        localStorage.removeItem("token");
+        router.replace("/admin/login");
+      });
+  }, [isLoginPage]);
+
+  if (!checked) return <Loader />;
+
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
   return (
-     <html lang="en">
-      <body className="admin" > 
-    <Authenticator hideSignUp={true}>
-      <Suspense fallback={<Loader />}>
-        <div className="min-h-screen bg-white admin-container overflow-x-hidden">
-          <SideBar />
-          <main className="lg:ml-56 w-full overflow-x-hidden">
-            {children}
-          </main>
-        </div>
-      </Suspense>
-    </Authenticator>
-    </body>
-    </html>
+    <ToastProvider>
+      <div className="admin">
+        <Suspense fallback={<Loader inline />}>
+          <div className="min-h-screen bg-white admin-container overflow-x-hidden">
+            <SideBar />
+            <main className="lg:ml-70 w-full overflow-x-hidden pt-4">
+              {children}
+            </main>
+          </div>
+        </Suspense>
+      </div>
+    </ToastProvider>
   );
 }

@@ -2,162 +2,125 @@
 @use 'sass:math';
 @use "colors" as *;
 
-
-@for $i from 0 through 360 {
+$rotations: (0, 45, 90, 135, 180, 225, 270, 315, 360);
+@each $i in $rotations {
     .rotate-#{$i} {
         rotate: $i * 1deg;
     }
 }
 
-@for $i from 0 through 100 {
+$roundings: (0, 2, 4, 5, 6, 8, 10, 12, 15, 16, 20, 24, 25, 28, 32, 40, 50, 93, 100);
+@each $i in $roundings {
     .rounded-#{$i} {
         border-radius: $i * 1px !important;
     }
-}
-
-@for $i from 0 through 100 {
     .rounded-top-left-#{$i} {
         border-top-left-radius: $i * 1px;
     }
-}
- 
-
-@for $i from 0 through 100 {
     .rounded-top-right-#{$i} {
         border-top-right-radius: $i * 1px !important;
     }
 }
 
-@for $i from 0 through 100 {
+$font-sizes: (0, 8, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 28, 32, 35, 36, 40,45, 48, 55, 56, 60, 64, 72, 80, 96);
+@each $i in $font-sizes {
     .fz-#{$i} {
         font-size: $i * 1px !important;
     }
 }
 
-
-
-@for $i from 10 through 100 {
+$widths-perc: (10, 15, 20, 25, 30, 33, 40, 50, 60, 66, 70, 75, 80, 90, 100, 186);
+@each $i in $widths-perc {
     .w-#{$i}-perc {
         width: $i * 1%;
     }
-}
-
-@for $i from 0 through 100 {
     .max-w-#{$i} {
         max-width: $i * 1% !important;
     }
 }
 
-@for $i from 0 through 1000 {
+$widths-px: (0, 50, 100, 120, 150, 160, 180,186, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 450, 500, 550, 600, 650, 700, 750, 800, 900, 1000, 1200, 1440, 1600, 1920);
+@each $i in $widths-px {
     .w-#{$i}-px {
         width: $i * 1px !important;
     }
-}
-
-@for $i from 0 through 1000 {
     .min-width-#{$i}-px {
         min-width: $i * 1px !important;
         width: $i * 1px !important;
     }
-}
-
-@for $i from 0 through 2000 {
     .min-width-#{$i} {
         min-width: $i * 1px !important;
     }
 }
 
- 
-
-@for $i from 0 through 2000 {
+$heights-px: (0, 50, 100, 120, 150, 160, 180,186, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 450, 500, 550, 588, 600, 650, 700, 705, 707, 750, 800, 900, 1000, 1200, 1440, 1600, 1920);
+@each $i in $heights-px {
     .height-#{$i}-px {
         height: $i * 1px !important;
     }
-}
-
-@for $i from 0 through 2000 {
     .min-height-#{$i}-px {
         min-height: $i * 1px !important;
     }
-}
-
-@for $i from 0 through 2000 {
     .max-height-#{$i}-px {
         max-height: $i * 1px !important;
     }
 }
 
-@for $i from 0 through 100 {
+$heights-vh: (10, 20, 25, 30, 33, 40, 50, 60, 66, 70, 75, 80, 90, 100);
+@each $i in $heights-vh {
     .max-height-#{$i}-vh {
         max-height: $i * 1vh !important;
     }
-}
-
-@for $i from 0 through 100 {
     .min-height-#{$i}-vh {
         min-height: $i * 1vh !important;
     }
-}
-
-@for $i from 0 through 100 {
     .height-#{$i}-vh {
         height: $i * 1vh !important;
     }
 }
 
-@for $i from 0 through 100 {
+$heights-perc: (10, 20, 25, 30, 33, 40, 50, 60, 66, 70, 75, 80, 90, 100);
+@each $i in $heights-perc {
     .height-#{$i}-perc {
         height: $i * 1% !important;
     }
-}
-
-@for $i from 0 through 100 {
     .max-height-#{$i}-perc {
         max-height: $i * 1% !important;
     }
 }
 
-@for $i from 0 through 100 {
+$line-heights: (0, 12, 14, 16, 18, 20, 22, 24, 28, 32, 36, 40, 48);
+@each $i in $line-heights {
     .line-height-#{$i} {
         line-height: $i * 1px !important;
     }
 }
 
-@for $i from -100 through 100 {
+$positions: (-100,-85, -80, -60, -50, -40, -30, -20, -16, -12, -10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 12, 16, 20, 24, 28, 30, 32, 40, 48, 50, 60, 70, 80,85, 90, 100);
+@each $i in $positions {
     .top-#{$i} {
         top: $i * 1px !important;
     }
-}
-
-@for $i from -100 through 100 {
     .bottom-#{$i} {
         bottom: $i * 1px !important;
     }
-}
-
-@for $i from -100 through 100 {
     .right-#{$i} {
         right: $i * 1px !important;
     }
-}
-
-@for $i from -100 through 100 {
     .left-#{$i} {
         left: $i * 1px !important;
     }
 }
 
 .z-index-0 {
-        z-index: 0 !important;
-    }
+    z-index: 0 !important;
+}
 .z-index-1 {
-        z-index:1 !important;
-    }
+    z-index: 1 !important;
+}
 .z-index-1000 {
-        z-index:1000 !important;
-    }
-
- 
+    z-index: 1000 !important;
+}
 
 @mixin flex-center {
     display: flex !important;
@@ -165,22 +128,23 @@
     align-items: center;
 }
 
-@for $i from 0 through 100 {
+$zooms: (0, 10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 100);
+@each $i in $zooms {
     .zoom-#{$i} {
         zoom: math.div($i, 100);
     }
 }
 
-@for $i from 0 through 20 {
+$scales: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+@each $i in $scales {
     .scale-#{$i} {
         scale: math.div($i, 10);
     }
 }
 
-@for $i from 0 through 10 {
+$opacities: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+@each $i in $opacities {
     .opacity-#{$i} {
         opacity: math.div($i, 10);
     }
 }
-
-

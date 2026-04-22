@@ -23,6 +23,7 @@ export default function ContactUs({ content }: ContactUsProps) {
             className=" "
             width={389}
             height={86}
+            style={{ height: "auto" }}
           />
           <p className="fz-35 poppinsbold clr-4 mt-5">
             {title}

@@ -1,23 +1,39 @@
 "use client";
 
-import { useState, ChangeEvent, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";  
+import Link from "next/link";
+import { sendContact } from "@/lib/api";
 
-interface MessageResponse {
-  message: string;
-  customer_id: string;
-  upload_url?: string;
-  s3_key?: string;
-  content_type?: string;
-}
 
 export default function Contact() {
- 
+  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    try {
+      await sendContact(form);
+      setSuccess(true);
+      setForm({ name: '', email: '', phone: '', message: '' });
+    } catch {
+      setError('Une erreur est survenue. Veuillez réessayer.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="py-8 flex-center max-width-1518-px mx-auto">
-      <div className=" flex flex-wrap justify-between items-start px-4">
+      <div className="flex flex-wrap justify-between items-start px-4">
         {/* Colonne gauche - Image */}
         <div className="col-gt-sm-30 col-sm-100 col-xs-100 mb-5 px-4 hidden lg:block">
           <p className="fz-28 poppinsbold line-height-42">
@@ -33,6 +49,7 @@ export default function Contact() {
             className="w-95-perc mt-4"
             width={400}
             height={400}
+            style={{ height: "auto" }}
           />
         </div>
 
@@ -41,106 +58,69 @@ export default function Contact() {
           <div className="bg-1 w-100-perc rounded-25 p-5 lg:p-6">
             <p className="fz-24 lg:fz-28 poppinsbold line-height-36">
               Parlez-nous de votre projet
-            </p> 
-           
+            </p>
 
-             
+            {success && (
+              <div className="bg-green-100 text-green-800 rounded-lg p-3 mb-4 fz-14">
+                Votre message a bien été envoyé. Nous vous répondrons dans les plus brefs délais.
+              </div>
+            )}
+            {error && (
+              <div className="bg-red-100 text-red-800 rounded-lg p-3 mb-4 fz-14">{error}</div>
+            )}
 
-            <form   className="mt-4 form">
+            <form onSubmit={handleSubmit} className="mt-4 form">
               <div className="w-100-perc mb-2">
-                <label htmlFor="name" className="fz-14 lg:fz-15">
-                  Nom *
-                </label>
+                <label htmlFor="name" className="fz-14 lg:fz-15">Nom *</label>
                 <input
                   type="text"
                   id="name"
                   className="form-control"
-                  
+                  value={form.name}
+                  onChange={handleChange}
                   required
-                  
                 />
               </div>
               <div className="w-100-perc mb-2">
-                <label htmlFor="phone" className="fz-14 lg:fz-15">
-                  Téléphone
-                </label>
+                <label htmlFor="phone" className="fz-14 lg:fz-15">Téléphone</label>
                 <input
                   type="tel"
                   id="phone"
                   className="form-control"
-                  
-                  
+                  value={form.phone}
+                  onChange={handleChange}
                 />
               </div>
               <div className="w-100-perc mb-2">
-                <label htmlFor="email" className="fz-14 lg:fz-15">
-                  Email *
-                </label>
+                <label htmlFor="email" className="fz-14 lg:fz-15">Email *</label>
                 <input
                   type="email"
                   id="email"
                   className="form-control"
-                
+                  value={form.email}
+                  onChange={handleChange}
                   required
-                  
                 />
               </div>
               <div className="w-100-perc mb-2">
-                <label htmlFor="message" className="fz-14 lg:fz-15">
-                  Message *
-                </label>
+                <label htmlFor="message" className="fz-14 lg:fz-15">Message *</label>
                 <textarea
                   className="form-control"
                   id="message"
                   rows={4}
-            
+                  value={form.message}
+                  onChange={handleChange}
                   required
-                  
                 ></textarea>
               </div>
-
-              {/* Section pièce jointe */}
-              <div className="w-100-perc mb-3">
-                <div className="flex items-center relative">
-                 
-                  <span className="fz-14 clr-4 underline cursor-pointer">
-                    
-                  </span>
-                  <input
-                     
-                    type="file"
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  
-                    accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
-                    
-                  />
-                  
-                    <button
-                      type="button"
-                     
-                      className="ml-3 text-red-500 hover:text-red-700 fz-12"
-                      
-                    >
-                      Supprimer
-                    </button>
-               
-                </div>
-                <p className="fz-12 text-gray-500 mt-1">
-                  PDF, DOC, DOCX, XLS, XLSX, PNG, JPG (max 100 Mo)
-                </p>
-              </div>
-
-              {/* Progress indicator */}
-            
-             
 
               <div className="flex-center">
                 <button
                   type="submit"
                   className="bg-2 btn clr-1"
-                  
-                >Envoyer
-                  
+                  disabled={loading}
+                >
+                  {loading ? 'Envoi...' : 'Envoyer'}
                 </button>
               </div>
             </form>
@@ -152,25 +132,25 @@ export default function Contact() {
           <div className="bg-2 w-100-perc rounded-25 p-5">
             <div className="mb-5">
               <p className="fz-20 poppins-semibold clr-1 mb-3">Téléphone</p>
-              <Link href="tel:12365125124" className="flex items-center">
+              <Link href="tel:0172584088" className="flex items-center">
                 <svg width="24" height="24" fill="#fff" className="mr-3">
                   <use href="/icons/icons.svg#icon-phone"></use>
                 </svg>
-                <span className="fz-17 clr-1">12 365 125 124</span>
+                <span className="fz-17 clr-1">01 72 58 40 88</span>
               </Link>
             </div>
             <div className="mb-5">
               <p className="fz-20 poppins-semibold clr-1 mb-3">Email</p>
-              <Link href="mailto:contact@gc-structures.com" className="flex items-center">
+              <Link href="mailto:contact@gc-structures.fr" className="flex items-center">
                 <i className="pi pi-envelope clr-1 fz-20 mr-3"></i>
-                <span className="fz-17 clr-1">contact@gc-structures.com</span>
+                <span className="fz-17 clr-1">contact@gc-structures.fr</span>
               </Link>
             </div>
             <div>
               <p className="fz-20 poppins-semibold clr-1 mb-3">Adresse</p>
               <div className="flex items-start">
                 <i className="pi pi-map-marker clr-1 fz-20 mr-3 mt-1"></i>
-                <span className="fz-17 clr-1">123 Rue Example, 75000 Paris, France</span>
+                <span className="fz-17 clr-1">3 Sente Margot, 95800 Cergy, France</span>
               </div>
             </div>
           </div>

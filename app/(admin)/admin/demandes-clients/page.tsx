@@ -1,24 +1,18 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { get } from "@aws-amplify/api";
-import { fetchAuthSession } from "aws-amplify/auth";
 import { FaChevronDown, FaChevronUp, FaEye, FaDownload, FaTimes } from "react-icons/fa";
-import { apiName, paths } from "@/lib/constants";
+import { getContactSubmissions } from "@/lib/api";
 
 type RequestItem = {
-  CustomerId: string;
-  Contact: string;
-  Name: string;
-  Message: string;
-  RequestDate: string;
-  FileName?: string;
-};
-
-type DownloadUrlResponse = {
-  download_url: string;
-  expires_in: number;
-  file_name: string;
+  id: number;
+  name: string;
+  email: string;
+  phone?: string;
+  company?: string;
+  subject?: string;
+  message: string;
+  created_at: string;
 };
 
 export default function DemandesClients() {
@@ -26,44 +20,27 @@ export default function DemandesClients() {
   const [sortedRequests, setSortedRequests] = useState<RequestItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [previewFileName, setPreviewFileName] = useState<string>("");
-  const [previewLoading, setPreviewLoading] = useState(false);
 
   useEffect(() => {
     if (requests.length > 0) {
-      const sortedItems = [...requests].sort((a, b) => {
-        const dateA = new Date(a.RequestDate).getTime();
-        const dateB = new Date(b.RequestDate).getTime();
+      const sorted = [...requests].sort((a, b) => {
+        const dateA = new Date(a.created_at).getTime();
+        const dateB = new Date(b.created_at).getTime();
         return sortDirection === "desc" ? dateB - dateA : dateA - dateB;
       });
-      setSortedRequests(sortedItems);
+      setSortedRequests(sorted);
     }
   }, [requests, sortDirection]);
 
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-        if (!authToken) {
-          console.error("Token d'autorisation non valide.");
-          setLoading(false);
-          return;
-        }
-
-        const restOperation = await get({
-          apiName: apiName,
-          path: paths.customer_request,
-          options: {
-            headers: { Authorization: authToken },
-          },
-        });
-
-        const apiResponse = await restOperation.response;
-        const jsonData = await apiResponse.body.json();
-
-        if (Array.isArray(jsonData)) {
-          setRequests(jsonData as RequestItem[]);
+        const token = localStorage.getItem("token") || "";
+        const data = await getContactSubmissions(token);
+        if (Array.isArray(data)) {
+          setRequests(data);
+        } else if (data?.data && Array.isArray(data.data)) {
+          setRequests(data.data);
         }
       } catch (error) {
         console.error("Erreur lors de la récupération des demandes:", error);
@@ -75,70 +52,18 @@ export default function DemandesClients() {
     fetchRequests();
   }, []);
 
-  const getDownloadUrl = useCallback(async (customerId: string, fileName: string): Promise<string | null> => {
-    try {
-      const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      if (!authToken) {
-        console.error("Token d'autorisation non valide.");
-        return null;
-      }
-
-      const restOperation = await get({
-        apiName: apiName,
-        path: paths.customer_download_url,
-        options: {
-          headers: { Authorization: authToken },
-          queryParams: {
-            customerId: customerId,
-            fileName: fileName,
-          },
-        },
-      });
-
-      const apiResponse = await restOperation.response;
-      const jsonData = await apiResponse.body.json() as DownloadUrlResponse;
-      return jsonData.download_url;
-    } catch (error) {
-      console.error("Erreur lors de la récupération de l'URL de téléchargement:", error);
-      return null;
-    }
-  }, []);
-
-  const handlePreview = async (item: RequestItem) => {
-    if (!item.FileName) return;
-
-    setPreviewLoading(true);
-    setPreviewFileName(item.FileName);
-
-    const url = await getDownloadUrl(item.CustomerId, item.FileName);
-    if (url) {
-      setPreviewUrl(url);
-    }
-    setPreviewLoading(false);
-  };
-
-  const handleDownload = async (item: RequestItem) => {
-    if (!item.FileName) return;
-
-    const url = await getDownloadUrl(item.CustomerId, item.FileName);
-    if (url) {
-      // Ouvrir dans un nouvel onglet pour télécharger
-      window.open(url, "_blank");
-    }
-  };
-
-  const closePreview = () => {
-    setPreviewUrl(null);
-    setPreviewFileName("");
-  };
-
   const handleSortByDate = () => {
     setSortDirection((prev) => (prev === "desc" ? "asc" : "desc"));
   };
 
-  const isPreviewableFile = (fileName: string): boolean => {
-    const ext = fileName.split(".").pop()?.toLowerCase() || "";
-    return ["pdf", "png", "jpg", "jpeg", "gif", "webp"].includes(ext);
+  const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString("fr-FR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   return (
@@ -160,45 +85,30 @@ export default function DemandesClients() {
               <table className="min-w-full divide-y divide-gray-300">
                 <thead className="table-header">
                   <tr className="divide-x divide-gray-200">
-                    <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-6"
-                    >
+                    <th className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-6">
                       Nom
                     </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-white"
-                    >
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-white">
                       Contact
                     </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-white"
-                    >
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                      Sujet
+                    </th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-white">
                       Message
                     </th>
                     <th
-                      scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-white cursor-pointer"
                       onClick={handleSortByDate}
                     >
-                      <div className="group inline-flex items-center">
+                      <div className="inline-flex items-center gap-2">
                         Date
-                        <span className="ml-2 flex-none rounded text-white">
-                          {sortDirection === "desc" ? (
-                            <FaChevronDown className="h-4 w-4" aria-hidden="true" />
-                          ) : (
-                            <FaChevronUp className="h-4 w-4" aria-hidden="true" />
-                          )}
-                        </span>
+                        {sortDirection === "desc" ? (
+                          <FaChevronDown className="h-4 w-4" />
+                        ) : (
+                          <FaChevronUp className="h-4 w-4" />
+                        )}
                       </div>
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-white"
-                    >
-                      Pièce jointe
                     </th>
                   </tr>
                 </thead>
@@ -225,46 +135,29 @@ export default function DemandesClients() {
                       </td>
                     </tr>
                   ) : (
-                    sortedRequests.map((item, index) => (
+                    sortedRequests.map((item) => (
                       <tr
-                        key={item.CustomerId || index}
+                        key={item.id}
                         className="even:bg-gray-50 divide-x divide-gray-200 hover:bg-gray-100"
                       >
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                          {item.Name}
+                          {item.name}
+                          {item.company && (
+                            <div className="text-xs text-gray-400">{item.company}</div>
+                          )}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {item.Contact}
+                          <div>{item.email}</div>
+                          {item.phone && <div className="text-xs text-gray-400">{item.phone}</div>}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {item.subject || "—"}
                         </td>
                         <td className="px-3 py-4 text-sm text-gray-500 max-w-md">
-                          <div className="line-clamp-3">{item.Message}</div>
+                          <div className="line-clamp-3">{item.message}</div>
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {item.RequestDate}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {item.FileName ? (
-                            <div className="flex items-center gap-3">
-                              {isPreviewableFile(item.FileName) && (
-                                <button
-                                  onClick={() => handlePreview(item)}
-                                  className="text-blue-600 hover:text-blue-800"
-                                  title="Aperçu"
-                                >
-                                  <FaEye className="h-4 w-4" />
-                                </button>
-                              )}
-                              <button
-                                onClick={() => handleDownload(item)}
-                                className="text-green-600 hover:text-green-800"
-                                title="Télécharger"
-                              >
-                                <FaDownload className="h-4 w-4" />
-                              </button>
-                            </div>
-                          ) : (
-                            <span className="text-gray-400">—</span>
-                          )}
+                          {formatDate(item.created_at)}
                         </td>
                       </tr>
                     ))
@@ -275,48 +168,6 @@ export default function DemandesClients() {
           </div>
         </div>
       </div>
-
-      {/* Modal de prévisualisation */}
-      {(previewUrl || previewLoading) && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-          <div className="relative bg-white rounded-lg max-w-4xl max-h-[90vh] w-full mx-4 overflow-hidden">
-            <div className="flex items-center justify-between p-4 border-b">
-              <h3 className="text-lg font-semibold text-gray-900 truncate">
-                {previewFileName}
-              </h3>
-              <button
-                onClick={closePreview}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <FaTimes className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="p-4 overflow-auto max-h-[calc(90vh-80px)]">
-              {previewLoading ? (
-                <div className="flex justify-center items-center h-64">
-                  <div className="animate-spin h-8 w-8 border-t-2 border-orange-500 border-solid rounded-full"></div>
-                </div>
-              ) : previewUrl && (
-                <>
-                  {previewFileName.toLowerCase().endsWith(".pdf") ? (
-                    <iframe
-                      src={previewUrl}
-                      className="w-full h-[70vh]"
-                      title="Aperçu PDF"
-                    />
-                  ) : (
-                    <img
-                      src={previewUrl}
-                      alt={previewFileName}
-                      className="max-w-full h-auto mx-auto"
-                    />
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

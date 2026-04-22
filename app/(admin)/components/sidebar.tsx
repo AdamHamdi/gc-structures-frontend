@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { signOut } from "aws-amplify/auth";
-import { FaCog,FaBook,FaTools,FaColumns,FaBuilding,FaFileContract,FaGavel,FaShieldAlt, FaUsers,FaProjectDiagram, FaHome, FaSignOutAlt, FaEnvelope } from 'react-icons/fa';
-
+import { usePathname, useRouter } from "next/navigation";
+import { logout } from "@/lib/api";
+import { FaCog, FaBook, FaTools, FaColumns, FaBuilding, FaFileContract, FaGavel, FaShieldAlt, FaUsers, FaProjectDiagram, FaHome, FaSignOutAlt, FaEnvelope } from 'react-icons/fa';
 import Image from "next/image";
 
 const customerSection = [
@@ -95,17 +94,21 @@ function classNames(...classes: string[]) {
 
 export default function SideBar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   const handleSignOut = async () => {
-    try {
-      await signOut({ global: true });
-    } catch (error) {
-      console.log("error signing out: ", error);
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        await logout(token);
+      } catch {}
     }
+    localStorage.removeItem("token");
+    router.replace("/admin/login");
   };
 
   return (
-    <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-56 lg:flex-col">
+    <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-70 lg:flex-col">
       <div className="flex grow flex-col gap-y-5 overflow-y-auto px-4 pb-4" style={{ backgroundColor: "#1e293b" }}>
         {/* Logo */}
         <div className="flex h-16 shrink-0 items-center justify-center py-4">

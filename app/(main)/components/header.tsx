@@ -34,6 +34,7 @@ export default function Header() {
               className="mx-2"
               width={280}
               height={76}
+              style={{ height: "auto" }}
             />
           </Link>
           {/* Menu - visible par défaut sur desktop, contrôlé par isOpen sur mobile */}

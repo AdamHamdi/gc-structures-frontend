@@ -1,14 +1,14 @@
 "use client";
 
-import { apiName, paths } from "@/lib/constants";
-import { Toast } from "primereact/toast";
-import { useEffect, useRef, useState } from "react";
-import { get, put } from "aws-amplify/api";
-import { fetchAuthSession } from "aws-amplify/auth";
+
+import { useEffect, useState } from "react";
+import { useToast } from "../../components/Toast";
+import Loader from "../../components/Loader";
 import Image from "next/image";
 import Link from "next/link";
 import { FaPencilAlt } from "react-icons/fa";
 import { CardPencilEdit } from "../../components/EditableSection";
+import { getCmsPage, updateCmsSection } from "@/lib/api";
 
 interface SectionContent {
   id?: string;
@@ -150,6 +150,7 @@ function ContactUsSection({
             alt="GC Structures"
             width={389}
             height={86}
+            style={{ height: "auto" }}
           />
           <p className="fz-35 poppinsbold clr-4 mt-5">{tempTitle}</p>
           <p className="fz-17 mt-8 w-80-perc clr-4 line-height-36">{tempDescription}</p>
@@ -548,6 +549,7 @@ function RealisationsSection({
             alt="GC Structures"
             width={120}
             height={96}
+            style={{ height: "auto" }}
           />
           <span className="clr-2 fz-30 poppinsbold mb-3"> {tempTitle}</span>
         </div>
@@ -734,6 +736,7 @@ function ContactSection({
             className="w-95-perc mt-5"
             width={100}
             height={555}
+            style={{ height: "auto" }}
           />
         </div>
 
@@ -774,7 +777,7 @@ function ContactSection({
 export default function AccueilAdminPage() {
   const [pageContent, setPageContent] = useState<PageContent | null>(null);
   const [loading, setLoading] = useState(true);
-  const toast = useRef<Toast>(null);
+  const toast = useToast();
 
   useEffect(() => {
     fetchPageContent();
@@ -783,20 +786,9 @@ export default function AccueilAdminPage() {
   const fetchPageContent = async () => {
     setLoading(true);
     try {
-      const restOperation = get({
-        apiName: apiName,
-        path: paths.cms_page_content,
-        options: { queryParams: { PageName: "home" } },
-      });
-
-      const response = await restOperation.response;
-      const jsonData = await response.body.json();
-
-      if (jsonData && typeof jsonData === "object") {
-        setPageContent(jsonData as unknown as PageContent);
-      }
-    } catch (error) {
-      console.error("Erreur lors du chargement du contenu:", error);
+      const data = await getCmsPage("home");
+      setPageContent(data);
+    } catch {
       setPageContent({
         PageName: "home",
         sections: {
@@ -816,195 +808,55 @@ export default function AccueilAdminPage() {
 
   const handleSaveSection = async (sectionId: string, newContent: SectionContent) => {
     try {
-      const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      if (!authToken) {
-        throw new Error("Token d'autorisation invalide");
-      }
-
-      const payload = {
-        PageName: "home",
-        SectionId: sectionId,
-        Content: JSON.stringify({ id: sectionId, ...newContent }),
-      };
-
-      const restOperation = put({
-        apiName: apiName,
-        path: paths.cms_section_content,
-        options: {
-          headers: { Authorization: authToken },
-          body: payload,
-        },
-      });
-
-      await restOperation.response;
-
-      setPageContent((prev) => {
-        if (!prev) return prev;
-        return {
-          ...prev,
-          sections: { ...prev.sections, [sectionId]: newContent },
-        };
-      });
-
-      toast.current?.show({
-        severity: "success",
-        summary: "Succès",
-        detail: "Section mise à jour avec succès !",
-        life: 3000,
-      });
-    } catch (error) {
-      console.error("Erreur lors de la sauvegarde:", error);
-      toast.current?.show({
-        severity: "error",
-        summary: "Erreur",
-        detail: "Échec de la sauvegarde.",
-        life: 3000,
-      });
-      throw error;
+      const token = localStorage.getItem("token") || "";
+      await updateCmsSection(token, "home", sectionId, { id: sectionId, ...newContent });
+      setPageContent((prev) => prev ? { ...prev, sections: { ...prev.sections, [sectionId]: newContent } } : prev);
+      toast.show("success", "Succès", "Section mise à jour avec succès !");
+    } catch {
+      toast.show("error", "Erreur", "Échec de la sauvegarde.");
+      throw new Error("Échec de la sauvegarde");
     }
   };
 
-  // Fonction pour sauvegarder un item de WhyChooseUs
   const handleSaveWhyChooseUsItem = async (index: number, name: string, description: string) => {
     try {
-      const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      if (!authToken) {
-        throw new Error("Token d'autorisation invalide");
-      }
-
-      // Récupérer les items actuels
+      const token = localStorage.getItem("token") || "";
       const currentContent = pageContent?.sections?.whyChooseUs || {};
       const currentItems = (currentContent as any).items || [];
-
-      // Mettre à jour l'item à l'index donné
       const updatedItems = [...currentItems];
       updatedItems[index] = { ...updatedItems[index], name, description };
-
-      const newContent = {
-        ...currentContent,
-        id: "whyChooseUs",
-        items: updatedItems,
-      };
-
-      const payload = {
-        PageName: "home",
-        SectionId: "whyChooseUs",
-        Content: JSON.stringify(newContent),
-      };
-
-      const restOperation = put({
-        apiName: apiName,
-        path: paths.cms_section_content,
-        options: {
-          headers: { Authorization: authToken },
-          body: payload,
-        },
-      });
-
-      await restOperation.response;
-
-      setPageContent((prev) => {
-        if (!prev) return prev;
-        return {
-          ...prev,
-          sections: { ...prev.sections, whyChooseUs: newContent },
-        };
-      });
-
-      toast.current?.show({
-        severity: "success",
-        summary: "Succès",
-        detail: "Contenu mis à jour avec succès !",
-        life: 3000,
-      });
-    } catch (error) {
-      console.error("Erreur lors de la sauvegarde:", error);
-      toast.current?.show({
-        severity: "error",
-        summary: "Erreur",
-        detail: "Échec de la sauvegarde.",
-        life: 3000,
-      });
-      throw error;
+      const newContent = { ...currentContent, id: "whyChooseUs", items: updatedItems };
+      await updateCmsSection(token, "home", "whyChooseUs", newContent);
+      setPageContent((prev) => prev ? { ...prev, sections: { ...prev.sections, whyChooseUs: newContent } } : prev);
+      toast.show("success", "Succès", "Contenu mis à jour avec succès !");
+    } catch {
+      toast.show("error", "Erreur", "Échec de la sauvegarde.");
+      throw new Error("Échec de la sauvegarde");
     }
   };
 
-  // Fonction pour sauvegarder un item d'Expertises
   const handleSaveExpertiseItem = async (index: number, name: string, points: string[]) => {
     try {
-      const authToken = (await fetchAuthSession()).tokens?.idToken?.toString();
-      if (!authToken) {
-        throw new Error("Token d'autorisation invalide");
-      }
-
-      // Récupérer les items actuels
+      const token = localStorage.getItem("token") || "";
       const currentContent = pageContent?.sections?.expertises || {};
       const currentItems = (currentContent as any).items || [];
-
-      // Mettre à jour l'item à l'index donné
       const updatedItems = [...currentItems];
       updatedItems[index] = { ...updatedItems[index], name, points };
-
-      const newContent = {
-        ...currentContent,
-        id: "expertises",
-        items: updatedItems,
-      };
-
-      const payload = {
-        PageName: "home",
-        SectionId: "expertises",
-        Content: JSON.stringify(newContent),
-      };
-
-      const restOperation = put({
-        apiName: apiName,
-        path: paths.cms_section_content,
-        options: {
-          headers: { Authorization: authToken },
-          body: payload,
-        },
-      });
-
-      await restOperation.response;
-
-      setPageContent((prev) => {
-        if (!prev) return prev;
-        return {
-          ...prev,
-          sections: { ...prev.sections, expertises: newContent },
-        };
-      });
-
-      toast.current?.show({
-        severity: "success",
-        summary: "Succès",
-        detail: "Contenu mis à jour avec succès !",
-        life: 3000,
-      });
-    } catch (error) {
-      console.error("Erreur lors de la sauvegarde:", error);
-      toast.current?.show({
-        severity: "error",
-        summary: "Erreur",
-        detail: "Échec de la sauvegarde.",
-        life: 3000,
-      });
-      throw error;
+      const newContent = { ...currentContent, id: "expertises", items: updatedItems };
+      await updateCmsSection(token, "home", "expertises", newContent);
+      setPageContent((prev) => prev ? { ...prev, sections: { ...prev.sections, expertises: newContent } } : prev);
+      toast.show("success", "Succès", "Contenu mis à jour avec succès !");
+    } catch {
+      toast.show("error", "Erreur", "Échec de la sauvegarde.");
+      throw new Error("Échec de la sauvegarde");
     }
   };
 
-  if (loading) {
-    return (
-      <div className="loader">
-        <span>Chargement...</span>
-      </div>
-    );
-  }
+  if (loading) return <Loader inline />;
 
   return (
     <div>
-      <Toast ref={toast} />
+
 
       {/* Section Hero */}
       <HeroSection
