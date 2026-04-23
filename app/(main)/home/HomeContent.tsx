@@ -17,7 +17,10 @@ export default function HomeContent() {
 
   useEffect(() => {
     getCmsPage("home")
-      .then((data) => setPageContent(data))
+      .then((data) => {
+        console.log("CMS home:", JSON.stringify(data));
+        setPageContent(data);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);

@@ -49,7 +49,7 @@ export default function Contact() {
             className="w-95-perc mt-4"
             width={400}
             height={400}
-            style={{ height: "auto" }}
+            style={{ width: "auto", height: "auto" }}
           />
         </div>
 

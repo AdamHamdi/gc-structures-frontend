@@ -6,7 +6,7 @@
 @use "components/button";
 @use "components/input";
 @use "tailwind";
-@import "tailwindcss";
+@use "tailwindcss";
+@use "../public/poppins/stylesheet";
 //css
-@import "../public/poppins/stylesheet";
 @import "primeicons/primeicons.css";

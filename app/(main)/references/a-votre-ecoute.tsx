@@ -3,8 +3,8 @@ export default function Ecoute() {
   return (
     <div className="flex-center flex-col py-10 px-4">
       <p className="fz-60 poppinsbold text-center clr-4 mt-5 px-4">
-        Faites de vos idées une réalité <br />
-        avec une équipe à votre écoute
+        Faites de vos idées une réalité  avec une équipe à votre écoute <br />
+     
       </p>
       <br />
       <br />

@@ -56,7 +56,7 @@ export default function FooterAdminPage() {
       <div className="footer mt-10">
         <div className="max-width-1150-px mx-auto flex items-center flex-wrap px-4">
           <div className="col-gt-sm-33 col-sm-50 col-xs-100 mb-5">
-            <Image loading="eager" src="/images/logo.webp" alt="logo" className="mx-2" width={234} height={69} style={{ height: "auto" }} />
+            <Image loading="eager" src="/images/logo.webp" alt="logo" className="mx-2" width={234} height={69}style={{ width: "auto", height: "auto" }}/>
           </div>
           <div className="col-gt-sm-33 col-sm-50 col-xs-100 mb-5 relative">
             <PencilEditButton

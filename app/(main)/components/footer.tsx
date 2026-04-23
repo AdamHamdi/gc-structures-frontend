@@ -34,7 +34,7 @@ export default function Footer() {
             alt="logo"
             width={200}
             height={59}
-            style={{ height: "auto" }}
+          style={{ width: "auto", height: "auto" }}
           />
         </div>
         <div className="mb-5">

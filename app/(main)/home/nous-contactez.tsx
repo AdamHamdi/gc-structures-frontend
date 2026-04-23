@@ -22,8 +22,8 @@ export default function ContactUs({ content }: ContactUsProps) {
             alt="GC Structures"
             className=" "
             width={389}
-            height={86}
-            style={{ height: "auto" }}
+            height={86} 
+            style={{ width: "auto", height: "auto" }}
           />
           <p className="fz-35 poppinsbold clr-4 mt-5">
             {title}

@@ -149,8 +149,8 @@ function ContactUsSection({
             src="/images/Structures.webp"
             alt="GC Structures"
             width={389}
-            height={86}
-            style={{ height: "auto" }}
+            height={86} 
+            style={{ width: "auto", height: "auto" }}
           />
           <p className="fz-35 poppinsbold clr-4 mt-5">{tempTitle}</p>
           <p className="fz-17 mt-8 w-80-perc clr-4 line-height-36">{tempDescription}</p>
@@ -549,7 +549,8 @@ function RealisationsSection({
             alt="GC Structures"
             width={120}
             height={96}
-            style={{ height: "auto" }}
+            
+            style={{ width: "auto", height: "auto" }}
           />
           <span className="clr-2 fz-30 poppinsbold mb-3"> {tempTitle}</span>
         </div>
@@ -736,7 +737,7 @@ function ContactSection({
             className="w-95-perc mt-5"
             width={100}
             height={555}
-            style={{ height: "auto" }}
+            style={{ width: "auto", height: "auto" }}
           />
         </div>
 

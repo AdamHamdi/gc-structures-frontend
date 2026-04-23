@@ -23,7 +23,7 @@ export default function Realisations({ content }: RealisationsProps) {
             alt="GC Structures"
             width={120}
             height={96}
-            style={{ height: "auto" }}
+            style={{ width: "auto", height: "auto" }}
           />
           <span className="clr-2 fz-30  poppinsbold mb-3">
             {" "}

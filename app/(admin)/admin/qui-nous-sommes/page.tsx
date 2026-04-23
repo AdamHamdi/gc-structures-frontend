@@ -68,7 +68,7 @@ export default function QuiNousSommesAdminPage() {
         <div className="flex flex-wrap justify-between">
           <div className="col-gt-md-50 col-md-50 col-sm-100 col-xs-100 mx-auto p-3 mb-5">
             <div className="relative">
-              <Image loading="eager" src="/images/esquisse-de-nouvelle-construction.webp" alt="GC Structures" className="w-95-perc mt-5" width={550} height={466} />
+              <Image loading="eager" src="/images/esquisse-de-nouvelle-construction.webp" style={{ width: "auto", height: "auto" }} alt="GC Structures" className="w-95-perc mt-5" width={550} height={466} />
               <div className="absolute ans-exp bg-2 w-186-px height-186-px flex justify-center items-center left--85 bottom--85 rounded-93">
                 <span className="clr-1 poppinsbold fz-45 line-height-36 text-center">+ 14 ans</span>
               </div>
@@ -81,7 +81,7 @@ export default function QuiNousSommesAdminPage() {
                 description={presentation.description}
                 onSave={(t, d) => handleSaveSection("presentation", t, d)}
               />
-              <Image loading="eager" src="/images/Structures.webp" alt="GC Structures" width={389} height={86} style={{ height: "auto" }} />
+              <Image loading="eager" src="/images/Structures.webp" alt="GC Structures" style={{ width: "auto", height: "auto" }} width={389} height={86}   />
               <p className="fz-35 poppinsbold clr-4 mt-5">{presentation.title}</p>
               <p className="fz-17 mt-8 w-80-perc clr-4 line-height-36">{presentation.description}</p>
               <div className="mt-10">

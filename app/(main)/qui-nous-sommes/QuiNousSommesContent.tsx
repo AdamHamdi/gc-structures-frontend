@@ -47,6 +47,7 @@ export default function QuiNousSommesContent() {
                 className="w-95-perc mt-5"
                 width={550}
                 height={466}
+                style={{ width: "auto", height: "auto" }}
               />
               <div className="absolute ans-exp bg-2 w-186-px height-186-px flex justify-center items-center left--85 bottom--85 rounded-93">
                 <span className="clr-1 poppinsbold fz-45 line-height-36 text-center">
@@ -63,8 +64,8 @@ export default function QuiNousSommesContent() {
                 alt="GC Structures"
                 className=""
                 width={389}
-                height={86}
-                style={{ height: "auto" }}
+                height={86} 
+                style={{ width: "auto", height: "auto" }}
               />
               <p className="fz-35 poppinsbold clr-4 mt-5">{title}</p>
               <p className="fz-17 mt-8 w-80-perc clr-4 line-height-36">{description}</p>

@@ -31,10 +31,10 @@ export default function Header() {
               loading="eager"
               src="/images/logo.webp"
               alt="logo"
-              className="mx-2"
+              className="mx-2 w-auto h-auto"
               width={280}
-              height={76}
-              style={{ height: "auto" }}
+              height={76} 
+              style={{ width: "auto", height: "auto" }}
             />
           </Link>
           {/* Menu - visible par défaut sur desktop, contrôlé par isOpen sur mobile */}
