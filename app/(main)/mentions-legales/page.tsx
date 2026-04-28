@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { get } from "aws-amplify/api";
-import { apiName, paths } from "@/lib/constants";
+import { getCmsPage } from "@/lib/api";
 
 interface PageContent {
   PageName: string;
@@ -14,30 +13,12 @@ interface PageContent {
   };
 }
 
-export default function MentionsLegales() {
-  const [pageContent, setPageContent] = useState<PageContent | null>(null);
-
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const restOperation = get({
-          apiName: apiName,
-          path: paths.cms_page_content,
-          options: { queryParams: { PageName: "mentions-legales" } },
-        });
-        const response = await restOperation.response;
-        const jsonData = await response.body.json();
-        if (jsonData && typeof jsonData === "object") {
-          setPageContent(jsonData as unknown as PageContent);
-        }
-      } catch (error) {
-        console.error("Erreur lors du chargement:", error);
-        setPageContent({
-          PageName: "mentions-legales",
-          sections: {
-            main: {
-              title: "Mentions légales",
-              content: `<h2>1. Éditeur du site</h2>
+const fallback: PageContent = {
+  PageName: "mentions-legales",
+  sections: {
+    main: {
+      title: "Mentions légales",
+      content: `<h2>1. Éditeur du site</h2>
 <p>Le site gc-structures.com est édité par :</p>
 <p><strong>GC Structures</strong><br/>
 Bureau d'études en génie civil et structures<br/>
@@ -68,12 +49,17 @@ Seattle, WA 98108-1226<br/>
 
 <h2>7. Limitation de responsabilité</h2>
 <p>GC Structures s'efforce d'assurer au mieux l'exactitude et la mise à jour des informations diffusées sur ce site, dont elle se réserve le droit de corriger le contenu à tout moment et sans préavis. Toutefois, GC Structures ne peut garantir l'exactitude, la précision ou l'exhaustivité des informations mises à disposition sur ce site.</p>`,
-            },
-          },
-        });
-      }
-    };
-    fetchContent();
+    },
+  },
+};
+
+export default function MentionsLegales() {
+  const [pageContent, setPageContent] = useState<PageContent | null>(null);
+
+  useEffect(() => {
+    getCmsPage("mentions-legales")
+      .then((data) => setPageContent(data))
+      .catch(() => setPageContent(fallback));
   }, []);
 
   const content = pageContent?.sections?.main;

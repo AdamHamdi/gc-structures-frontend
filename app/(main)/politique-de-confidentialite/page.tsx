@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { get } from "aws-amplify/api";
-import { apiName, paths } from "@/lib/constants";
+import { getCmsPage } from "@/lib/api";
 
 interface PageContent {
   PageName: string;
@@ -14,30 +13,12 @@ interface PageContent {
   };
 }
 
-export default function PolitiqueConfidentialite() {
-  const [pageContent, setPageContent] = useState<PageContent | null>(null);
-
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const restOperation = get({
-          apiName: apiName,
-          path: paths.cms_page_content,
-          options: { queryParams: { PageName: "politique-confidentialite" } },
-        });
-        const response = await restOperation.response;
-        const jsonData = await response.body.json();
-        if (jsonData && typeof jsonData === "object") {
-          setPageContent(jsonData as unknown as PageContent);
-        }
-      } catch (error) {
-        console.error("Erreur lors du chargement:", error);
-        setPageContent({
-          PageName: "politique-confidentialite",
-          sections: {
-            main: {
-              title: "Politique de confidentialité",
-              content: `<h2>1. Collecte des informations</h2>
+const fallback: PageContent = {
+  PageName: "politique-confidentialite",
+  sections: {
+    main: {
+      title: "Politique de confidentialité",
+      content: `<h2>1. Collecte des informations</h2>
 <p>Nous recueillons des informations lorsque vous vous inscrivez sur notre site, passez une commande, remplissez un formulaire ou nous contactez. Les informations recueillies incluent votre nom, votre adresse e-mail, numéro de téléphone et/ou adresse postale.</p>
 
 <h2>2. Utilisation des informations</h2>
@@ -67,12 +48,17 @@ export default function PolitiqueConfidentialite() {
 
 <h2>6. Contact</h2>
 <p>Pour toute question concernant cette politique de confidentialité, vous pouvez nous contacter à l'adresse : contact@gc-structures.com</p>`,
-            },
-          },
-        });
-      }
-    };
-    fetchContent();
+    },
+  },
+};
+
+export default function PolitiqueConfidentialite() {
+  const [pageContent, setPageContent] = useState<PageContent | null>(null);
+
+  useEffect(() => {
+    getCmsPage("politique-confidentialite")
+      .then((data) => setPageContent(data))
+      .catch(() => setPageContent(fallback));
   }, []);
 
   const content = pageContent?.sections?.main;

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 
 type ToastType = "success" | "error" | "warning" | "info";
 
@@ -21,7 +21,7 @@ export function useToast() {
   return useContext(ToastContext);
 }
 
-const ICONS: Record<ToastType, JSX.Element> = {
+const ICONS: Record<ToastType, React.ReactElement> = {
   success: (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
@@ -60,7 +60,7 @@ const LABELS: Record<ToastType, string> = {
 
 function ToastItem({ item, onRemove }: { item: ToastItem; onRemove: (id: number) => void }) {
   const s = STYLES[item.type];
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     timerRef.current = setTimeout(() => onRemove(item.id), 4000);
