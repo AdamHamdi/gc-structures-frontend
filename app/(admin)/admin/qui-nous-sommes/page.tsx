@@ -68,7 +68,7 @@ export default function QuiNousSommesAdminPage() {
         <div className="flex flex-wrap justify-between">
           <div className="col-gt-md-50 col-md-50 col-sm-100 col-xs-100 mx-auto p-3 mb-5">
             <div className="relative">
-              <Image loading="eager" src="/images/esquisse-de-nouvelle-construction.webp" style={{ width: "auto", height: "auto" }} alt="GC Structures" className="w-95-perc mt-5" width={550} height={466} />
+              <Image loading="eager" src="/images/esquisse-de-nouvelle-construction.webp"  alt="GC Structures" className="w-95-perc mt-5" width={550} height={466} />
               <div className="absolute ans-exp bg-2 w-186-px height-186-px flex justify-center items-center left--85 bottom--85 rounded-93">
                 <span className="clr-1 poppinsbold fz-45 line-height-36 text-center">+ 14 ans</span>
               </div>
