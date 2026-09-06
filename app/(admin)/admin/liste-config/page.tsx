@@ -125,7 +125,7 @@ export default function ListeConfigPage() {
   if (error) return <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">Erreur: {error}</div>;
 
   return (
-    <div className="w-100">
+    <div className="w-full">
 
       <div className="success-content p-3">
         <h1 className="text-bold fz-25 px-2 mt-2 mb-3" style={{ color: "#1e293b" }}>Paramétrage SEO</h1>

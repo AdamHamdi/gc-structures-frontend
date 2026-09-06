@@ -10,3 +10,30 @@
 @use "../public/poppins/stylesheet";
 //css
 @import "primeicons/primeicons.css";
+
+$widths-px: (0, 10, 15, 17, 34, 50, 100, 120, 150, 160, 180,186, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 450, 500, 550, 600, 650, 700, 750, 800, 900, 1000, 1200, 1440, 1600, 1920);
+@each $i in $widths-px {
+    .w-#{$i}-px {
+        width: #{$i}px !important;
+    }
+    .min-width-#{$i}-px {
+        min-width: #{$i}px !important;
+        width: #{$i}px !important;
+    }
+    .min-width-#{$i} {
+        min-width: #{$i}px !important;
+    }
+}
+
+$heights-px: (0, 10, 15, 17, 34, 50, 100, 120, 150, 160, 180,186, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 450, 500, 550, 588, 600, 650, 700, 705, 707, 750, 800, 900, 1000, 1200, 1440, 1600, 1920);
+@each $i in $heights-px {
+    .height-#{$i}-px {
+        height: #{$i}px !important;
+    }
+    .min-height-#{$i}-px {
+        min-height: #{$i}px !important;
+    }
+    .max-height-#{$i}-px {
+        max-height: #{$i}px !important;
+    }
+}

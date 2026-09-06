@@ -24,9 +24,12 @@ body {
   justify-content: space-between;
 }
 
+.sidebar {
+  width: 270px;
+}
 main {
   height: 100vh;
-  margin-left: 14rem;
+  width: calc(100% - 290px); 
   overflow-x: hidden;
 }
 
@@ -104,7 +107,7 @@ tr {
   display: flex;
   align-items: center;
   &:hover {
-    background-color: color.adjust(#ef5a28, $lightness: 8%); 
+    background-color: color.adjust(#ef5a28, $lightness: 8%);
   }
 }
 
@@ -168,7 +171,7 @@ tr {
 .drop-down-cont {
   position: relative;
   z-index: 9999;
-  left:0;
+  left: 0;
 
   .drop-down {
     box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4);
@@ -235,7 +238,7 @@ tr {
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: color.adjust(#ef5a28, $lightness: 8%); 
+    background-color: color.adjust(#ef5a28, $lightness: 8%);
     transform: scale(1.1);
   }
 

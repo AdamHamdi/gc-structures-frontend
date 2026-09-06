@@ -108,7 +108,7 @@ export default function SideBar() {
   };
 
   return (
-    <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-70 lg:flex-col">
+    <div className="hidden sidebar lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-70 lg:flex-col">
       <div className="flex grow flex-col gap-y-5 overflow-y-auto px-4 pb-4" style={{ backgroundColor: "#1e293b" }}>
         {/* Logo */}
         <div className="flex h-16 shrink-0 items-center justify-center py-4">
