@@ -9,7 +9,7 @@ export default function CookieBanner() {
   useEffect(() => {
     const consent = localStorage.getItem("cookie-consent");
     if (!consent) {
-      setShowBanner(true);
+      queueMicrotask(() => setShowBanner(true));
     }
   }, []);
 

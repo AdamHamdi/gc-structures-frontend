@@ -12,7 +12,7 @@ import Realisations from "./realisations";
 import WhyChooseUs from "./why-choose-us";
 
 export default function HomeContent() {
-  const [pageContent, setPageContent] = useState<any>(null);
+  const [pageContent, setPageContent] = useState<{ sections?: Record<string, unknown> } & Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

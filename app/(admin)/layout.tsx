@@ -24,7 +24,7 @@ export default function AdminRootLayout({
 
   useEffect(() => {
     if (isLoginPage) {
-      setChecked(true);
+      queueMicrotask(() => setChecked(true));
       return;
     }
     const token = localStorage.getItem("token");

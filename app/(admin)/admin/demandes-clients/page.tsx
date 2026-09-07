@@ -74,7 +74,7 @@ export default function DemandesClients() {
             Demandes de contact
           </h1>
           <p className="mt-2 text-sm text-gray-700">
-            Retrouvez ici l'ensemble des demandes de contact soumises par vos visiteurs.
+            Retrouvez ici l&apos;ensemble des demandes de contact soumises par vos visiteurs.
           </p>
         </div>
       </div>

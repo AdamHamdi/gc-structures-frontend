@@ -71,7 +71,7 @@ function EditableSection({
         {fields.map((field) => (
           <div key={field.key} className="mb-3">
             <span className="text-bold fz-14 text-muet">{field.label}:</span>
-            <p className="fz-16 mt-1">{(tempData as any)[field.key] || `[${field.label} non défini]`}</p>
+            <p className="fz-16 mt-1">{(tempData as Record<string, string | undefined>)[field.key] || `[${field.label} non défini]`}</p>
           </div>
         ))}
         <div className="mt-4">
@@ -83,9 +83,9 @@ function EditableSection({
                   <div key={field.key} className="mb-3">
                     <label className="fz-18">{field.label}</label>
                     {field.type === 'textarea' ? (
-                      <textarea value={(tempData as any)[field.key] || ''} onChange={(e) => updateField(field.key, e.target.value)} rows={3} />
+                      <textarea value={(tempData as Record<string, string | undefined>)[field.key] || ''} onChange={(e) => updateField(field.key, e.target.value)} rows={3} />
                     ) : (
-                      <input type="text" value={(tempData as any)[field.key] || ''} onChange={(e) => updateField(field.key, e.target.value)} className="w-full p-2 border rounded" />
+                      <input type="text" value={(tempData as Record<string, string | undefined>)[field.key] || ''} onChange={(e) => updateField(field.key, e.target.value)} className="w-full p-2 border rounded" />
                     )}
                   </div>
                 ))}

@@ -19,7 +19,7 @@ export default function LoginPage() {
       const data = await login(email, password);
       localStorage.setItem("token", data.token);
       router.push("/admin");
-    } catch (err: any) {
+    } catch {
       setError("Erreur de connexion au serveur. Vérifiez que le serveur est démarré.");
     } finally {
       setLoading(false);

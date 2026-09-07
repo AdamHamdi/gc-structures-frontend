@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 
 interface EditableSectionProps {
@@ -36,8 +36,8 @@ function useDropdownPosition(buttonRef: React.RefObject<HTMLButtonElement | null
     setPosition({ horizontal, vertical });
   }, [buttonRef, isVisible]);
 
-  useEffect(() => {
-    calculatePosition();
+  useLayoutEffect(() => {
+    queueMicrotask(calculatePosition);
     window.addEventListener("resize", calculatePosition);
     window.addEventListener("scroll", calculatePosition);
     return () => {

@@ -8,7 +8,7 @@ import Link from "next/link";
 import { PencilEditButton } from "../../components/EditableSection";
 import { getCmsPage, updateCmsSection } from "@/lib/api";
 
-interface SectionContent { id?: string; title?: string; description?: string; }
+interface SectionContent { id?: string; title?: string; description?: string; years?: string; }
 interface PageContent { PageName: string; sections: { [key: string]: SectionContent }; }
 
 const PAGE = "qui-nous-sommes";
@@ -32,7 +32,7 @@ export default function QuiNousSommesAdminPage() {
       const data = await getCmsPage(PAGE);
       setPageContent(data);
     } catch {
-      setPageContent({ PageName: PAGE, sections: { hero: { title: "Qui sommes nous ?", years: "+ 14 ans" } as any, presentation: DEFAULTS.presentation } });
+      setPageContent({ PageName: PAGE, sections: { hero: { title: "Qui sommes nous ?", years: "+ 14 ans" }, presentation: DEFAULTS.presentation } });
     } finally {
       setLoading(false);
     }
@@ -51,7 +51,7 @@ export default function QuiNousSommesAdminPage() {
 
   if (loading) return <Loader inline />;
 
-  const presentationData = pageContent?.sections?.presentation ?? (pageContent as any)?.presentation;
+  const presentationData = pageContent?.sections?.presentation;
   const presentation = {
     title: presentationData?.title || DEFAULTS.presentation.title,
     description: presentationData?.description || DEFAULTS.presentation.description,

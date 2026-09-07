@@ -823,7 +823,7 @@ export default function AccueilAdminPage() {
     try {
       const token = localStorage.getItem("token") || "";
       const currentContent = pageContent?.sections?.whyChooseUs || {};
-      const currentItems = (currentContent as any).items || [];
+      const currentItems = (currentContent as { items?: Array<Record<string, unknown>> }).items || [];
       const updatedItems = [...currentItems];
       updatedItems[index] = { ...updatedItems[index], name, description };
       const newContent = { ...currentContent, id: "whyChooseUs", items: updatedItems };
@@ -840,7 +840,7 @@ export default function AccueilAdminPage() {
     try {
       const token = localStorage.getItem("token") || "";
       const currentContent = pageContent?.sections?.expertises || {};
-      const currentItems = (currentContent as any).items || [];
+      const currentItems = (currentContent as { items?: Array<Record<string, unknown>> }).items || [];
       const updatedItems = [...currentItems];
       updatedItems[index] = { ...updatedItems[index], name, points };
       const newContent = { ...currentContent, id: "expertises", items: updatedItems };
