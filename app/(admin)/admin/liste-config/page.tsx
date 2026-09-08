@@ -97,7 +97,8 @@ export default function ListeConfigPage() {
         if (Array.isArray(data)) {
           setSeoConfigs(data);
         } else if (data?.sections) {
-          const configs = Object.entries(data.sections).map(([key, val]: [string, { MetaTitle?: string; MetaDescription?: string }]) => ({
+          const sections = data.sections as Record<string, { MetaTitle?: string; MetaDescription?: string }>;
+          const configs = Object.entries(sections).map(([key, val]) => ({
             PageName: key,
             MetaTitle: val?.MetaTitle || "",
             MetaDescription: val?.MetaDescription || "",

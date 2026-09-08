@@ -11,8 +11,10 @@ import ContactUs from "./nous-contactez";
 import Realisations from "./realisations";
 import WhyChooseUs from "./why-choose-us";
 
+type HomeSections = Record<string, Record<string, unknown> | undefined>;
+
 export default function HomeContent() {
-  const [pageContent, setPageContent] = useState<{ sections?: Record<string, unknown> } & Record<string, unknown> | null>(null);
+  const [pageContent, setPageContent] = useState<({ sections?: HomeSections } & HomeSections) | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
