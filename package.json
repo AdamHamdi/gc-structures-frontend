@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
-    "next": "16.2.3",
+    "next": "^16.3.3",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.7",
     "react": "19.2.4",

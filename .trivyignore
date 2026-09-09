@@ -1,0 +1,8 @@
+# CVE-2026-59873 (package tar, embarque dans npm/Node.js) : deni de service via
+# un fichier gzip malveillant ("gzip bomb"). Corrige en tar 7.5.19 ; les images
+# node:*-alpine disponibles au moment de ce build n'embarquent qu'une version
+# anterieure (7.5.11 avec node:22-alpine). Ce paquet n'est utilise que par npm
+# lors du build de l'image (npm ci / npm run build), pas expose a une entree
+# utilisateur en production - risque juge acceptable dans ce contexte.
+# A retirer des qu'une image node:*-alpine plus recente embarque tar >= 7.5.19.
+CVE-2026-59873
