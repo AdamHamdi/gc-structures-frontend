@@ -46,7 +46,7 @@ export default function Realisations({ content }: RealisationsProps) {
                 <Image
                   loading="eager"
                   className="w-100-perc height-100-perc zoom-out image"
-                  src="/images/batiment-en-beton-symetrique.png"
+                  src="/images/batiment-en-beton-symetrique.webp"
                   alt="GC Structures"
                   width={100}
                   height={100}
@@ -60,7 +60,7 @@ export default function Realisations({ content }: RealisationsProps) {
                     <Image
                       loading="eager"
                       className="w-100-perc image fit-cover"
-                      src="/images/parc-industriel-batiment-d-usine-entrepot.png"
+                      src="/images/parc-industriel-batiment-d-usine-entrepot.webp"
                       alt="GC Structures"
                       width={100}
                       height={323}
@@ -72,7 +72,7 @@ export default function Realisations({ content }: RealisationsProps) {
                     <Image
                       loading="eager"
                       className="w-100-perc image "
-                      src="/images/construction-de-batiments-de-nouveaux-gratte-ciel.png"
+                      src="/images/construction-de-batiments-de-nouveaux-gratte-ciel.webp"
                       alt="GC Structures"
                       width={100}
                       height={323}
@@ -86,7 +86,7 @@ export default function Realisations({ content }: RealisationsProps) {
                     <Image
                       loading="eager"
                       className="w-100-perc image "
-                      src="/images/chantier-de-construction.png"
+                      src="/images/chantier-de-construction.webp"
                       alt="GC Structures"
                       width={100}
                       height={323}
@@ -98,7 +98,7 @@ export default function Realisations({ content }: RealisationsProps) {
                     <Image
                       loading="eager"
                       className="w-100-perc image "
-                      src="/images/silo-agricole.png"
+                      src="/images/silo-agricole.webp"
                       alt="GC Structures"
                       width={100}
                       height={323}
