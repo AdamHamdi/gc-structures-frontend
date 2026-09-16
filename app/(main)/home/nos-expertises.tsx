@@ -46,9 +46,9 @@ const defaultItems: ExpertiseItem[] = [
 ];
 
 const images = [
-  "/images/gros-plan-hommes-regarder-plan.webp",
+  "/images/gros-plan-hommes-regarder-plan.png",
   "/images/vue-laterale-de-l-homme-avec-blueprint.webp",
-  "/images/femme-travaillant-avec-une-grande-regle-et-un-stylo-sur-la-table.webp"
+  "/images/femme-travaillant-avec-une-grande-regle-et-un-stylo-sur-la-table.png"
 ];
 
 export default function Expertises({ content }: ExpertisesProps) {

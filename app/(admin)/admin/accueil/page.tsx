@@ -435,9 +435,9 @@ function ExpertisesSection({
   const items = content?.items && content.items.length > 0 ? content.items : defaultItems;
 
   const images = [
-    "/images/gros-plan-hommes-regarder-plan.webp",
+    "/images/gros-plan-hommes-regarder-plan.png",
     "/images/vue-laterale-de-l-homme-avec-blueprint.webp",
-    "/images/femme-travaillant-avec-une-grande-regle-et-un-stylo-sur-la-table.webp",
+    "/images/femme-travaillant-avec-une-grande-regle-et-un-stylo-sur-la-table.png",
   ];
 
   return (
@@ -594,7 +594,7 @@ function RealisationsSection({
                 <Image
                   loading="eager"
                   className="w-100-perc height-100-perc zoom-out image"
-                  src="/images/batiment-en-beton-symetrique.webp"
+                  src="/images/batiment-en-beton-symetrique.png"
                   alt="GC Structures"
                   width={100}
                   height={100}
@@ -608,7 +608,7 @@ function RealisationsSection({
                     <Image
                       loading="eager"
                       className="w-100-perc image fit-cover"
-                      src="/images/parc-industriel-batiment-d-usine-entrepot.webp"
+                      src="/images/parc-industriel-batiment-d-usine-entrepot.png"
                       alt="GC Structures"
                       width={100}
                       height={323}
@@ -620,7 +620,7 @@ function RealisationsSection({
                     <Image
                       loading="eager"
                       className="w-100-perc image"
-                      src="/images/construction-de-batiments-de-nouveaux-gratte-ciel.webp"
+                      src="/images/construction-de-batiments-de-nouveaux-gratte-ciel.png"
                       alt="GC Structures"
                       width={100}
                       height={323}
@@ -634,7 +634,7 @@ function RealisationsSection({
                     <Image
                       loading="eager"
                       className="w-100-perc image"
-                      src="/images/chantier-de-construction.webp"
+                      src="/images/chantier-de-construction.png"
                       alt="GC Structures"
                       width={100}
                       height={323}
@@ -646,7 +646,7 @@ function RealisationsSection({
                     <Image
                       loading="eager"
                       className="w-100-perc image"
-                      src="/images/silo-agricole.webp"
+                      src="/images/silo-agricole.png"
                       alt="GC Structures"
                       width={100}
                       height={323}
