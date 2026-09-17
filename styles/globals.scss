@@ -37,3 +37,7 @@ $heights-px: (0, 10, 15, 17, 34, 50, 100, 120, 150, 160, 180,186, 200, 220, 240,
         max-height: #{$i}px !important;
     }
 }
+
+.rounded-17 {
+    border-radius: 17px !important;
+}
